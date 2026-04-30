@@ -13,7 +13,7 @@ MODEL_PATH = "plant_disease_recog_model_pwp.keras"
 # download from Drive if not present
 if not os.path.exists(MODEL_PATH):
     gdown.download(
-        "https://drive.google.com/uc?export=download&id=1M2qYTbYFxWqwvE3QbTbUsKKx05Mh-9DQ"",
+        "https://drive.google.com/uc?export=download&id=1M2qYTbYFxWqwvE3QbTbUsKKx05Mh-9DQ",
         MODEL_PATH,
         quiet=False
     )
