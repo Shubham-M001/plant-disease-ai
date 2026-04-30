@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishi Rakshak - AI Crop Health System</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f1f5f9;
+    color: #111;
+}
+
+/* Top Bar */
+.topbar {
+    background: #14532d;
+    color: white;
+    padding: 8px 10%;
+    font-size: 14px;
+}
+
+/* Main Header */
+.header {
+    background: white;
+    padding: 15px 10%;
+    border-bottom: 2px solid #14532d;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.header p {
+    margin: 3px 0 0 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Section Layout */
+.section {
+    padding: 40px 10%;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border: 1px solid #d1d5db;
+    max-width: 520px;
+    margin: auto;
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 18px;
+    border-bottom: 1px solid #d1d5db;
+    padding-bottom: 10px;
+}
+
+input[type="file"] {
+    margin: 15px 0;
+}
+
+button {
+    padding: 10px 15px;
+    background: #14532d;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #166534;
+}
+
+.preview img {
+    max-width: 100%;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+}
+
+.result {
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* Info Box */
+.info {
+    margin-top: 40px;
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #d1d5db;
+}
+
+/* Footer */
+.footer {
+    background: #14532d;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 13px;
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+Instant Plant Disease Detection &#8226;  Driven by Artificial Intelligence
+</div>
+
+<div class="header">
+<h1>Krishi Rakshak</h1>
+<p>AI-Powered Plant Health Monitoring System  </p>
+</div>
+
+<div class="section">
+
+<div class="card">
+<h2>Plant Image Analysis Portal</h2>
+
+<p>Upload a plant or crop image to detect possible diseases and health conditions.</p>
+
+<input type="file" id="imageInput" accept="image/*">
+<br>
+<button onclick="predict()">Submit for Detection</button>
+
+<div class="preview">
+<img id="previewImage">
+</div>
+
+<div class="result" id="result"></div>
+</div>
+
+<div class="info">
+<h3>About Krishi Rakshak</h3>
+<p>
+Krishi Rakshak is an AI-driven platform designed to assist farmers in early
+identification of plant diseases and crop health issues .
+</p>
+
+<p>
+By leveraging computer vision and machine learning and deep learning technologies,
+the system analyzes crop images and provides instant disease detection support.
+</p>
+
+<p>
+The objective is to promote smart farming, reduce crop losses,
+and enhance agricultural productivity through accessible digital tools.
+</p>
+</div>
+
+</div>
+
+<div class="footer">
+Krishi Rakshak 2026 &#8226; Made for Farmers
+</div>
+<script>
+const input = document.getElementById("imageInput");
+const preview = document.getElementById("previewImage");
+const resultDiv = document.getElementById("result");
+
+input.addEventListener("change", function() {
+    const file = input.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        resultDiv.innerText = "";
+    }
+});
+
+function predict() {
+    const file = input.files[0];
+
+    if (!file) {
+        alert("Please upload an image.");
+        return;
+    }
+
+    resultDiv.innerText = "Analyzing crop image...";
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch("/predict", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        resultDiv.innerText =
+            "Detection Result: " + data.disease +
+            " | Confidence: " + data.confidence + "%";
+    })
+    .catch(error => {
+        resultDiv.innerText = "Error analyzing image.";
+        console.error(error);
+    });
+}
+</script>
+
+
+</body>
+</html>
